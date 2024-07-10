@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  # https://flink.apache.org/downloads/
+  jobmanager:
+    image: flink:1.17.2
+    hostname: jobmanager
+    container_name: jobmanager
+    ports:
+      - "8081:8081"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    command: jobmanager
+
+  taskmanager:
+    image: flink:1.17.2
+    hostname: taskmanager
+    container_name: taskmanager
+    depends_on:
+      - jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    command: taskmanager
